@@ -1,0 +1,7 @@
+name: skript-tebex
+main: com.github.cjh3139.skripttebex.SkriptTebex
+version: @version@
+api-version: 1.13
+depend: [Skript]
+authors: [CJH3139]
+website: https://github.com/skript-minestom/skript-tebex

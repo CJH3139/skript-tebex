@@ -1,0 +1,43 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'com.gradleup.shadow' version '9.3.0'
+    id 'java'
+}
+
+group 'com.github.cjh3139.skripttebex'
+version '1.0.0'
+
+compileJava.options.encoding = 'UTF-8'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url = 'https://maven.hapily.me/snapshots' }
+}
+
+dependencies {
+    compileOnly 'com.github.hapily04:skript-minestom:1.0.0-alpha.38'
+    compileOnly 'com.google.code.gson:gson:2.11.0'
+
+    testImplementation 'com.github.hapily04:skript-minestom:1.0.0-alpha.38'
+    testImplementation 'com.google.code.gson:gson:2.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+        'version': version
+    ]
+}

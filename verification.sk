@@ -1,0 +1,46 @@
+## skript-tebex manual verification script.
+##
+## This exercises every registered syntax in the addon: all six events, the "tebex is connected"
+## condition, the "first element of" / "size of" base-Skript expressions applied to skript-tebex's
+## own list expressions, and every effect used by the /tebextest command below. Put this in the
+## server's scripts/ folder and follow the numbered checklist in task-16-report.md.
+
+on tebex connect:
+    broadcast "tebex connected: %tebex store name% (%tebex store currency%)"
+    broadcast "categories: %size of tebex categories%, packages: %size of tebex packages%"
+
+on tebex disconnect:
+    send "tebex disconnected" to console
+
+on tebex queue check:
+    send "tebex queue check, %due players% due, next in %seconds until next tebex check%s" to console
+
+on tebex queue error:
+    send "tebex error: %reason%" to console
+
+on tebex purchase:
+    broadcast "%event-player% purchased %name of package% (payment %payment id%)"
+
+on tebex command:
+    send "tebex is about to run: %command%" to console
+
+command /tebextest:
+    trigger:
+        if tebex is connected:
+            send "connected"
+        else:
+            send "not connected"
+            stop
+        set {_pkg} to first element of tebex packages
+        send "first package: %name of {_pkg}% costs %price of {_pkg}%"
+        create a tebex checkout link for {_pkg} for player and store it in {_link}
+        send "checkout: %{_link}%"
+        fetch the tebex lookup of player and store it in {_lookup}
+        send "lookup: %{_lookup}%"
+        fetch the tebex community goals and store them in {_goals::*}
+        send "goals: %size of {_goals::*}%"
+        fetch the tebex sales and store them in {_sales::*}
+        send "sales: %size of {_sales::*}%"
+        force a tebex queue check
+        refresh the tebex listing
+        open the tebex store to player
