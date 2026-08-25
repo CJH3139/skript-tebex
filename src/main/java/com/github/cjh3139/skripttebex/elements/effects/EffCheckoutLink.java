@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -16,6 +20,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletionException;
 
+@Name("Create Tebex Checkout Link")
+@Description(
+    "Creates a checkout link for a single package and stores the URL in a variable. Accepts a tebex package or a " +
+    "package id, and a player or a username. This effect waits for the Tebex API and therefore delays the script."
+)
+@Examples("create a tebex checkout link for {_package} for player and store it in {_url}\n\tsend {_url} to player")
+@Since("1.0.0")
 public class EffCheckoutLink extends AsyncEffect {
     static {
         Skript.registerEffect(EffCheckoutLink.class,

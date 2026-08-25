@@ -2,6 +2,10 @@ package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -16,6 +20,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
+@Name("Fetch Tebex Payments")
+@Description(
+    "Fetches the most recent payments of your Tebex store into a list variable. Fetches the last 10 payments when " +
+    "no amount is given. This effect waits for the Tebex API and therefore delays the script."
+)
+@Examples("fetch the last 25 tebex payments and store them in {_payments::*}")
+@Since("1.0.0")
 public class EffFetchPayments extends AsyncEffect {
     private static final int DEFAULT_LIMIT = 10;
 

@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.conditions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -11,6 +15,10 @@ import net.minestom.server.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Has Pending Tebex Commands")
+@Description("Checks whether a player has commands waiting in the Tebex command queue.")
+@Examples("on join:\n\tif player has pending tebex commands:\n\t\tsend \"Your purchase is on its way!\" to player")
+@Since("1.0.0")
 public class CondHasPendingCommands extends Condition {
     static {
         Skript.registerCondition(CondHasPendingCommands.class,

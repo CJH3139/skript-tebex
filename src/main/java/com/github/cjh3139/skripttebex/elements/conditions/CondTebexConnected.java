@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.conditions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -9,6 +13,10 @@ import com.github.cjh3139.skripttebex.TebexService;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Tebex Is Connected")
+@Description("Checks whether skript-tebex is authenticated with Tebex and polling the command queue.")
+@Examples("if tebex is connected:\n\tbroadcast \"Store is online\"")
+@Since("1.0.0")
 public class CondTebexConnected extends Condition {
     static {
         Skript.registerCondition(CondTebexConnected.class,

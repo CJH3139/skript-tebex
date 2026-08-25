@@ -1,0 +1,849 @@
+{
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "events": [
+    {
+      "id": "tebex_purchase",
+      "name": "Tebex Purchase",
+      "description": [
+        "Called when a Tebex payment's commands are about to be delivered."
+      ],
+      "examples": [
+        "on tebex purchase:\n\tbroadcast \"%event-player% bought %package%!\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "[on] tebex purchase"
+      ],
+      "event values": [
+        "event-package",
+        "event-payment id",
+        "event-player",
+        "event-tebex commands",
+        "event-tebex player"
+      ],
+      "cancellable": false
+    },
+    {
+      "id": "tebex_command",
+      "name": "Tebex Command",
+      "description": [
+        "Called for each command Tebex wants executed. Cancelling stops skript-tebex from running it, but the command is still marked as executed with Tebex unless you use 'mark the tebex command as unexecuted'."
+      ],
+      "examples": [
+        "on tebex command:\n\tif command contains \"give\":\n\t\tcancel event"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "[on] tebex command"
+      ],
+      "event values": [
+        "event-command",
+        "event-package",
+        "event-payment id",
+        "event-player",
+        "event-tebex command"
+      ],
+      "cancellable": true
+    },
+    {
+      "id": "tebex_queue_check",
+      "name": "Tebex Queue Check",
+      "description": [
+        "Called after each successful poll of the Tebex command queue."
+      ],
+      "examples": [
+        "on tebex queue check:\n\tbroadcast \"%due players% players have purchases waiting\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "[on] tebex queue check"
+      ],
+      "event values": [
+        "event-due players"
+      ],
+      "cancellable": false
+    },
+    {
+      "id": "tebex_queue_error",
+      "name": "Tebex Queue Error",
+      "description": [
+        "Called when a Tebex API request fails."
+      ],
+      "examples": [
+        "on tebex queue error:\n\tsend \"Tebex error: %reason%\" to console"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "[on] tebex queue error"
+      ],
+      "event values": [
+        "event-reason"
+      ],
+      "cancellable": false
+    },
+    {
+      "id": "tebex_connect",
+      "name": "Tebex Connect",
+      "description": [
+        "Called when skript-tebex authenticates with Tebex and loads store information."
+      ],
+      "examples": [
+        "on tebex connect:\n\tbroadcast \"Connected to %tebex store name%\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "[on] tebex connect"
+      ],
+      "event values": [
+        "event-store"
+      ],
+      "cancellable": false
+    },
+    {
+      "id": "tebex_disconnect",
+      "name": "Tebex Disconnect",
+      "description": [
+        "Called when skript-tebex stops polling, for example after the secret key is cleared."
+      ],
+      "examples": [
+        "on tebex disconnect:\n\tsend \"Tebex polling stopped\" to console"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "[on] tebex disconnect"
+      ],
+      "cancellable": false
+    }
+  ],
+  "conditions": [
+    {
+      "id": "CondHasPendingCommands",
+      "name": "Has Pending Tebex Commands",
+      "description": [
+        "Checks whether a player has commands waiting in the Tebex command queue."
+      ],
+      "examples": [
+        "on join:\n\tif player has pending tebex commands:\n\t\tsend \"Your purchase is on its way!\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "%player% has [any] pending tebex commands",
+        "%player% does(n't| not) have [any] pending tebex commands"
+      ]
+    },
+    {
+      "id": "CondTebexConnected",
+      "name": "Tebex Is Connected",
+      "description": [
+        "Checks whether skript-tebex is authenticated with Tebex and polling the command queue."
+      ],
+      "examples": [
+        "if tebex is connected:\n\tbroadcast \"Store is online\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex is connected",
+        "tebex is(n't| not) connected"
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "EffBasketLink",
+      "name": "Create Tebex Basket Link",
+      "description": [
+        "Creates a Tebex Headless basket that contains the given packages for a player, then stores the basket's checkout link in a variable. Requires a Headless public token to be configured. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "on command /cart:\n\tcreate a tebex basket link for {_packages::*} for player and store it in {_link}\n\tsend {_link} to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "create [a] tebex basket link for %tebexpackages% for %player% and store (it|the result) in %object%"
+      ]
+    },
+    {
+      "id": "EffCheckoutLink",
+      "name": "Create Tebex Checkout Link",
+      "description": [
+        "Creates a checkout link for a single package and stores the URL in a variable. Accepts a tebex package or a package id, and a player or a username. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "create a tebex checkout link for {_package} for player and store it in {_url}\n\tsend {_url} to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "create [a] tebex checkout link for %tebexpackage/number% for %player/string% and store (it|the result) in %object%"
+      ]
+    },
+    {
+      "id": "EffCreateCoupon",
+      "name": "Create Tebex Coupon",
+      "description": [
+        "Creates a percentage discount coupon in your Tebex store and stores it in a variable. The given name is used as the coupon code; a random code is generated when no name is given. The coupon never expires unless an expiry timespan is given. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "create a tebex coupon named \"SUMMER\" with 25 percent discount expiring in 7 days and store it in {_coupon}\nsend \"Use %code of {_coupon}% at checkout\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "create [a] tebex coupon [named %string%] with %number% [percent] discount [expiring in %timespan%] and store (it|the result) in %object%"
+      ]
+    },
+    {
+      "id": "EffCreateGiftCard",
+      "name": "Create Tebex Gift Card",
+      "description": [
+        "Creates a gift card with the given balance and stores it in a variable. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "create a tebex giftcard worth 10 with note \"Event prize\" and store it in {_card}\nsend \"Your code: %code of {_card}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "create [a] tebex giftcard worth %number% [with note %string%] and store (it|the result) in %object%"
+      ]
+    },
+    {
+      "id": "EffDeleteCoupon",
+      "name": "Delete Tebex Coupon",
+      "description": [
+        "Deletes a coupon from your Tebex store. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "delete the tebex coupon {_coupon}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "delete [the] tebex coupon %tebexcoupon%"
+      ]
+    },
+    {
+      "id": "EffFetchGoals",
+      "name": "Fetch Tebex Community Goals",
+      "description": [
+        "Fetches the community goals of your Tebex store into a list variable. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "fetch the tebex community goals and store them in {_goals::*}\nsend \"%name of {_goals::1}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "fetch [the] tebex community goals and store (them|the result) in %objects%"
+      ]
+    },
+    {
+      "id": "EffFetchLookup",
+      "name": "Fetch Tebex Player Lookup",
+      "description": [
+        "Looks up a player's Tebex purchase history and stores the lookup in a variable. Accepts a player or a username. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "fetch the tebex lookup of player and store it in {_lookup}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "fetch [the] tebex lookup of %player/string% and store (it|the result) in %object%"
+      ]
+    },
+    {
+      "id": "EffFetchPayments",
+      "name": "Fetch Tebex Payments",
+      "description": [
+        "Fetches the most recent payments of your Tebex store into a list variable. Fetches the last 10 payments when no amount is given. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "fetch the last 25 tebex payments and store them in {_payments::*}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "fetch [the] [last %number%] tebex payments and store (them|the result) in %objects%"
+      ]
+    },
+    {
+      "id": "EffFetchPurchases",
+      "name": "Fetch Tebex Purchases",
+      "description": [
+        "Fetches the packages a player has purchased into a list variable. Accepts a player or a username. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "fetch the tebex purchases of player and store them in {_purchases::*}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "fetch [the] tebex purchases of %player/string% and store (it|them|the result) in %objects%"
+      ]
+    },
+    {
+      "id": "EffFetchSales",
+      "name": "Fetch Tebex Sales",
+      "description": [
+        "Fetches the sales that are currently running in your Tebex store into a list variable. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "fetch the tebex sales and store them in {_sales::*}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "fetch [the] tebex sales and store (them|the result) in %objects%"
+      ]
+    },
+    {
+      "id": "EffForceCheck",
+      "name": "Force Tebex Queue Check",
+      "description": [
+        "Polls the Tebex command queue immediately instead of waiting for the next scheduled check."
+      ],
+      "examples": [
+        "on command /tebexcheck:\n\tforce a tebex queue check"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "force [a] tebex queue check"
+      ]
+    },
+    {
+      "id": "EffMarkUnexecuted",
+      "name": "Mark Tebex Command As Unexecuted",
+      "description": [
+        "Marks the command of a tebex command event as unexecuted, so Tebex delivers it again on a later queue check. Can only be used in a tebex command event."
+      ],
+      "examples": [
+        "on tebex command:\n\tif player is not online:\n\t\tmark the tebex command as unexecuted"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "mark [the] [event-]tebex command as unexecuted"
+      ]
+    },
+    {
+      "id": "EffOpenStore",
+      "name": "Open Tebex Store",
+      "description": [
+        "Opens the Tebex store GUI, or a single category of it, to players."
+      ],
+      "examples": [
+        "on command /store:\n\topen the tebex store to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "open [the] tebex store to %players%",
+        "open [the] tebex category %tebexcategory% to %players%"
+      ]
+    },
+    {
+      "id": "EffRefreshListing",
+      "name": "Refresh Tebex Listing",
+      "description": [
+        "Refreshes the cached Tebex store listing of categories and packages. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "refresh the tebex listing"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "refresh [the] tebex listing"
+      ]
+    },
+    {
+      "id": "EffSetSecretKey",
+      "name": "Set Tebex Secret Key",
+      "description": [
+        "Sets the Tebex secret key, saves it to the config and reconnects to Tebex with it. The key is saved off the main thread, so the script is not delayed."
+      ],
+      "examples": [
+        "set the tebex secret key to \"your-secret-key\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "set [the] tebex secret key to %string%"
+      ]
+    },
+    {
+      "id": "EffTebexBan",
+      "name": "Tebex Ban",
+      "description": [
+        "Bans a player from your Tebex store, optionally with a reason and an IP address. Accepts a player or a username. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "tebex ban player for \"chargeback\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex ban %player/string% [for %string%] [with ip %string%]"
+      ]
+    },
+    {
+      "id": "EffVoidGiftCard",
+      "name": "Void Tebex Gift Card",
+      "description": [
+        "Voids a gift card so its remaining balance can no longer be used. This effect waits for the Tebex API and therefore delays the script."
+      ],
+      "examples": [
+        "void the tebex giftcard {_card}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "void [the] tebex giftcard %tebexgiftcard%"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "id": "ExprCategoryPackages",
+      "name": "Tebex Category Packages",
+      "description": [
+        "The packages inside a Tebex category."
+      ],
+      "examples": [
+        "loop packages of {_category}:\n\tsend \"%name of loop-value%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Tebex Package",
+      "patterns": [
+        "[the] packages of %tebexcategories%",
+        "%tebexcategories%'[s] packages"
+      ]
+    },
+    {
+      "id": "ExprDuePlayers",
+      "name": "Tebex Due Players",
+      "description": [
+        "The players that currently have commands waiting in the Tebex command queue."
+      ],
+      "examples": [
+        "on tebex queue check:\n\tbroadcast \"%size of tebex due players% players are waiting\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Tebex Player",
+      "patterns": [
+        "[the] tebex due players"
+      ]
+    },
+    {
+      "id": "ExprNextCheck",
+      "name": "Seconds Until Next Tebex Check",
+      "description": [
+        "The number of seconds until the next poll of the Tebex command queue. Returns 0 when the queue is not running."
+      ],
+      "examples": [
+        "send \"Next check in %seconds until the next tebex check% seconds\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Number",
+      "patterns": [
+        "[the] seconds until [the] next tebex check"
+      ]
+    },
+    {
+      "id": "ExprPendingCommands",
+      "name": "Pending Tebex Commands",
+      "description": [
+        "The commands that Tebex has queued for a player."
+      ],
+      "examples": [
+        "loop the pending tebex commands of player:\n\tsend \"%loop-value%\" to console"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Tebex Command",
+      "patterns": [
+        "[the] pending tebex commands of %player%"
+      ]
+    },
+    {
+      "id": "ExprStoreInfo",
+      "name": "Tebex Store Information",
+      "description": [
+        "The name, id, domain or currency of your Tebex store. Empty until skript-tebex has connected to Tebex."
+      ],
+      "examples": [
+        "on tebex connect:\n\tbroadcast \"Connected to %tebex store name% (%tebex store currency%)\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Object",
+      "patterns": [
+        "[the] tebex store (name|id|domain|currency)"
+      ]
+    },
+    {
+      "id": "ExprTebexCategories",
+      "name": "Tebex Categories",
+      "description": [
+        "All categories in the cached Tebex store listing."
+      ],
+      "examples": [
+        "loop tebex categories:\n\tsend \"%name of loop-value%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Tebex Category",
+      "patterns": [
+        "[the] tebex categories"
+      ]
+    },
+    {
+      "id": "ExprTebexCode",
+      "name": "Tebex Code",
+      "description": [
+        "The code of a Tebex coupon or gift card."
+      ],
+      "examples": [
+        "send \"%code of {_coupon}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Text",
+      "patterns": [
+        "[the] [tebex] code of %tebexcoupons/tebexgiftcards%",
+        "%tebexcoupons/tebexgiftcards%'[s] [tebex] code"
+      ]
+    },
+    {
+      "id": "ExprTebexDescription",
+      "name": "Tebex Description",
+      "description": [
+        "The description of a Tebex package, category or community goal."
+      ],
+      "examples": [
+        "send \"%description of {_package}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Text",
+      "patterns": [
+        "[the] [tebex] description of %tebexpackages/tebexcategories/tebexgoals%",
+        "%tebexpackages/tebexcategories/tebexgoals%'[s] [tebex] description"
+      ]
+    },
+    {
+      "id": "ExprTebexId",
+      "name": "Tebex ID",
+      "description": [
+        "The id of a Tebex package, category, coupon, gift card, ban or community goal."
+      ],
+      "examples": [
+        "send \"%id of {_package}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Number",
+      "patterns": [
+        "[the] [tebex] id of %tebexpackages/tebexcategories/tebexcoupons/tebexgiftcards/tebexbans/tebexgoals%",
+        "%tebexpackages/tebexcategories/tebexcoupons/tebexgiftcards/tebexbans/tebexgoals%'[s] [tebex] id"
+      ]
+    },
+    {
+      "id": "ExprTebexName",
+      "name": "Tebex Name",
+      "description": [
+        "The name of a Tebex package, category, player, sale or community goal."
+      ],
+      "examples": [
+        "send \"%name of {_package}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Text",
+      "patterns": [
+        "[the] [tebex] name of %tebexpackages/tebexcategories/tebexplayers/tebexsales/tebexgoals%",
+        "%tebexpackages/tebexcategories/tebexplayers/tebexsales/tebexgoals%'[s] [tebex] name"
+      ]
+    },
+    {
+      "id": "ExprTebexPackages",
+      "name": "Tebex Packages",
+      "description": [
+        "All packages in the cached Tebex store listing."
+      ],
+      "examples": [
+        "loop tebex packages:\n\tsend \"%name of loop-value%: %price of loop-value%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Tebex Package",
+      "patterns": [
+        "[the] tebex packages"
+      ]
+    },
+    {
+      "id": "ExprTebexPrice",
+      "name": "Tebex Price",
+      "description": [
+        "The total price of a Tebex package, including any discount applied by a sale."
+      ],
+      "examples": [
+        "send \"%price of {_package}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "return type": "Number",
+      "patterns": [
+        "[the] [tebex] price of %tebexpackages%",
+        "%tebexpackages%'[s] [tebex] price"
+      ]
+    }
+  ],
+  "types": [
+    {
+      "id": "Package",
+      "name": "Tebex Package",
+      "description": [
+        "A package from your Tebex store listing."
+      ],
+      "examples": [
+        "send \"%name of {_package}%: %price of {_package}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]package[s]"
+      ]
+    },
+    {
+      "id": "QueuedCommand",
+      "name": "Tebex Command",
+      "description": [
+        "A command queued by Tebex for delivery to a player."
+      ],
+      "examples": [
+        "on tebex command:\n\tbroadcast the tebex command"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]command[s]"
+      ]
+    },
+    {
+      "id": "Category",
+      "name": "Tebex Category",
+      "description": [
+        "A category of packages from your Tebex store listing."
+      ],
+      "examples": [
+        "send \"%name of {_category}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]categor(y|ies)"
+      ]
+    },
+    {
+      "id": "QueuedPlayer",
+      "name": "Tebex Player",
+      "description": [
+        "A player with commands queued for delivery."
+      ],
+      "examples": [
+        "on tebex purchase:\n\tbroadcast \"%name of event-tebex player%\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]player[s]"
+      ]
+    },
+    {
+      "id": "Payment",
+      "name": "Tebex Payment",
+      "description": [
+        "A payment made in your Tebex store."
+      ],
+      "examples": [
+        "fetch the last 5 tebex payments and store them in {_payments::*}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]payment[s]"
+      ]
+    },
+    {
+      "id": "PlayerLookup",
+      "name": "Tebex Player Lookup",
+      "description": [
+        "The result of looking up a player's Tebex purchase history."
+      ],
+      "examples": [
+        "fetch the tebex lookup of player and store it in {_lookup}"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]lookup[s]"
+      ]
+    },
+    {
+      "id": "Ban",
+      "name": "Tebex Ban",
+      "description": [
+        "A ban recorded in your Tebex store."
+      ],
+      "examples": [
+        "tebex ban player for \"chargeback\""
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]ban[s]"
+      ]
+    },
+    {
+      "id": "Coupon",
+      "name": "Tebex Coupon",
+      "description": [
+        "A coupon from your Tebex store."
+      ],
+      "examples": [
+        "send \"%code of {_coupon}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]coupon[s]"
+      ]
+    },
+    {
+      "id": "GiftCard",
+      "name": "Tebex Gift Card",
+      "description": [
+        "A gift card from your Tebex store."
+      ],
+      "examples": [
+        "send \"%code of {_giftcard}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]gift[ ]card[s]"
+      ]
+    },
+    {
+      "id": "Sale",
+      "name": "Tebex Sale",
+      "description": [
+        "A sale running in your Tebex store."
+      ],
+      "examples": [
+        "send \"%name of {_sale}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]sale[s]"
+      ]
+    },
+    {
+      "id": "CommunityGoal",
+      "name": "Tebex Community Goal",
+      "description": [
+        "A community goal from your Tebex store."
+      ],
+      "examples": [
+        "send \"%name of {_goal}%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ](goal|community goal)[s]"
+      ]
+    },
+    {
+      "id": "ServerInformation",
+      "name": "Tebex Store",
+      "description": [
+        "Information about your Tebex store."
+      ],
+      "examples": [
+        "send \"%tebex store name%\" to player"
+      ],
+      "since": [
+        "1.0.0"
+      ],
+      "patterns": [
+        "tebex[ ]store[s]"
+      ]
+    }
+  ]
+}

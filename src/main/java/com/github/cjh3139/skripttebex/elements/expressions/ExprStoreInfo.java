@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -13,6 +17,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+@Name("Tebex Store Information")
+@Description("The name, id, domain or currency of your Tebex store. Empty until skript-tebex has connected to Tebex.")
+@Examples("on tebex connect:\n\tbroadcast \"Connected to %tebex store name% (%tebex store currency%)\"")
+@Since("1.0.0")
 public class ExprStoreInfo extends SimpleExpression<Object> {
     static {
         Skript.registerExpression(ExprStoreInfo.class, Object.class, ExpressionType.SIMPLE,

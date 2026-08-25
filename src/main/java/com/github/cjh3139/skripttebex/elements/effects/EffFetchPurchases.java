@@ -2,6 +2,10 @@ package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -17,6 +21,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
+@Name("Fetch Tebex Purchases")
+@Description(
+    "Fetches the packages a player has purchased into a list variable. Accepts a player or a username. This effect " +
+    "waits for the Tebex API and therefore delays the script."
+)
+@Examples("fetch the tebex purchases of player and store them in {_purchases::*}")
+@Since("1.0.0")
 public class EffFetchPurchases extends AsyncEffect {
     static {
         Skript.registerEffect(EffFetchPurchases.class,

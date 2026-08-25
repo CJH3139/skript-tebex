@@ -2,6 +2,10 @@ package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -16,6 +20,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
+@Name("Fetch Tebex Community Goals")
+@Description(
+    "Fetches the community goals of your Tebex store into a list variable. This effect waits for the Tebex API and " +
+    "therefore delays the script."
+)
+@Examples("fetch the tebex community goals and store them in {_goals::*}\nsend \"%name of {_goals::1}%\" to player")
+@Since("1.0.0")
 public class EffFetchGoals extends AsyncEffect {
     static {
         Skript.registerEffect(EffFetchGoals.class,

@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.util.AsyncEffect;
@@ -13,6 +17,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletionException;
 
+@Name("Tebex Ban")
+@Description(
+    "Bans a player from your Tebex store, optionally with a reason and an IP address. Accepts a player or a " +
+    "username. This effect waits for the Tebex API and therefore delays the script."
+)
+@Examples("tebex ban player for \"chargeback\"")
+@Since("1.0.0")
 public class EffTebexBan extends AsyncEffect {
     static {
         Skript.registerEffect(EffTebexBan.class,

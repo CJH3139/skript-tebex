@@ -2,6 +2,10 @@ package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -23,6 +27,14 @@ import java.util.Map;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Name("Create Tebex Coupon")
+@Description(
+    "Creates a percentage discount coupon in your Tebex store and stores it in a variable. The given name is used " +
+    "as the coupon code; a random code is generated when no name is given. The coupon never expires unless an " +
+    "expiry timespan is given. This effect waits for the Tebex API and therefore delays the script."
+)
+@Examples("create a tebex coupon named \"SUMMER\" with 25 percent discount expiring in 7 days and store it in {_coupon}\nsend \"Use %code of {_coupon}% at checkout\" to player")
+@Since("1.0.0")
 public class EffCreateCoupon extends AsyncEffect {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

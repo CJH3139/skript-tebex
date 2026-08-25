@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -13,6 +17,10 @@ import net.minestom.server.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Open Tebex Store")
+@Description("Opens the Tebex store GUI, or a single category of it, to players.")
+@Examples("on command /store:\n\topen the tebex store to player")
+@Since("1.0.0")
 public class EffOpenStore extends Effect {
     static {
         Skript.registerEffect(EffOpenStore.class,

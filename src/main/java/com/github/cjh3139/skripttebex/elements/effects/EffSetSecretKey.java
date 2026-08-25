@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -13,6 +17,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
+@Name("Set Tebex Secret Key")
+@Description(
+    "Sets the Tebex secret key, saves it to the config and reconnects to Tebex with it. The key is saved off the " +
+    "main thread, so the script is not delayed."
+)
+@Examples("set the tebex secret key to \"your-secret-key\"")
+@Since("1.0.0")
 public class EffSetSecretKey extends Effect {
     static {
         Skript.registerEffect(EffSetSecretKey.class, "set [the] tebex secret key to %string%");

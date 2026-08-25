@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -11,6 +15,10 @@ import com.github.cjh3139.skripttebex.api.model.Category;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Tebex Categories")
+@Description("All categories in the cached Tebex store listing.")
+@Examples("loop tebex categories:\n\tsend \"%name of loop-value%\" to player")
+@Since("1.0.0")
 public class ExprTebexCategories extends SimpleExpression<Category> {
     static {
         Skript.registerExpression(ExprTebexCategories.class, Category.class, ExpressionType.SIMPLE,

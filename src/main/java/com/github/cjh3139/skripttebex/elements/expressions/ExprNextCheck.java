@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -11,6 +15,10 @@ import com.github.cjh3139.skripttebex.queue.CommandQueue;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Seconds Until Next Tebex Check")
+@Description("The number of seconds until the next poll of the Tebex command queue. Returns 0 when the queue is not running.")
+@Examples("send \"Next check in %seconds until the next tebex check% seconds\" to player")
+@Since("1.0.0")
 public class ExprNextCheck extends SimpleExpression<Number> {
     static {
         Skript.registerExpression(ExprNextCheck.class, Number.class, ExpressionType.SIMPLE,

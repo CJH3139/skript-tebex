@@ -1,5 +1,9 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.PropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -12,6 +16,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Name("Tebex Category Packages")
+@Description("The packages inside a Tebex category.")
+@Examples("loop packages of {_category}:\n\tsend \"%name of loop-value%\" to player")
+@Since("1.0.0")
 public class ExprCategoryPackages extends PropertyExpression<Category, Package> {
     static {
         register(ExprCategoryPackages.class, Package.class, "packages", "tebexcategories");

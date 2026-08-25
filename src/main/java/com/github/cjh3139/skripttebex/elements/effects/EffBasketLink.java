@@ -2,6 +2,10 @@ package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -20,6 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
+@Name("Create Tebex Basket Link")
+@Description(
+    "Creates a Tebex Headless basket that contains the given packages for a player, then stores the basket's " +
+    "checkout link in a variable. Requires a Headless public token to be configured. This effect waits for the " +
+    "Tebex API and therefore delays the script."
+)
+@Examples("on command /cart:\n\tcreate a tebex basket link for {_packages::*} for player and store it in {_link}\n\tsend {_link} to player")
+@Since("1.0.0")
 public class EffBasketLink extends AsyncEffect {
     static {
         Skript.registerEffect(EffBasketLink.class,

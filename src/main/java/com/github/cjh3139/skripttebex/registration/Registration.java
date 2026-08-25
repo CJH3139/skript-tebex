@@ -20,6 +20,7 @@ public class Registration {
             .user("tebex ?packages?")
             .name("Tebex Package")
             .description("A package from your Tebex store listing.")
+            .since("1.0.0")
             .examples("send \"%name of {_package}%: %price of {_package}%\" to player")
             .parser(new Parser<Package>() {
                 @Override
@@ -92,6 +93,7 @@ public class Registration {
             .user("tebex ?commands?")
             .name("Tebex Command")
             .description("A command queued by Tebex for delivery to a player.")
+            .since("1.0.0")
             .examples("on tebex command:\n\tbroadcast the tebex command")
             .parser(new Parser<QueuedCommand>() {
                 @Override
@@ -115,6 +117,7 @@ public class Registration {
             .user("tebex ?categor(y|ies)")
             .name("Tebex Category")
             .description("A category of packages from your Tebex store listing.")
+            .since("1.0.0")
             .examples("send \"%name of {_category}%\" to player")
             .parser(new Parser<Category>() {
                 @Override
@@ -182,7 +185,8 @@ public class Registration {
             .user("tebex ?players?")
             .name("Tebex Player")
             .description("A player with commands queued for delivery.")
-            .examples("on tebex command:\n\tbroadcast name of player of the tebex command")
+            .since("1.0.0")
+            .examples("on tebex purchase:\n\tbroadcast \"%name of event-tebex player%\"")
             .parser(new Parser<QueuedPlayer>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {
@@ -205,7 +209,8 @@ public class Registration {
             .user("tebex ?payments?")
             .name("Tebex Payment")
             .description("A payment made in your Tebex store.")
-            .examples("send \"%amount of {_payment}%\" to player")
+            .since("1.0.0")
+            .examples("fetch the last 5 tebex payments and store them in {_payments::*}")
             .parser(new Parser<Payment>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {
@@ -229,7 +234,8 @@ public class Registration {
             .user("tebex ?lookups?")
             .name("Tebex Player Lookup")
             .description("The result of looking up a player's Tebex purchase history.")
-            .examples("set {_lookup} to tebex lookup of player")
+            .since("1.0.0")
+            .examples("fetch the tebex lookup of player and store it in {_lookup}")
             .parser(new Parser<PlayerLookup>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {
@@ -255,7 +261,8 @@ public class Registration {
             .user("tebex ?bans?")
             .name("Tebex Ban")
             .description("A ban recorded in your Tebex store.")
-            .examples("send \"%reason of {_ban}%\" to player")
+            .since("1.0.0")
+            .examples("tebex ban player for \"chargeback\"")
             .parser(new Parser<Ban>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {
@@ -278,6 +285,7 @@ public class Registration {
             .user("tebex ?coupons?")
             .name("Tebex Coupon")
             .description("A coupon from your Tebex store.")
+            .since("1.0.0")
             .examples("send \"%code of {_coupon}%\" to player")
             .parser(new Parser<Coupon>() {
                 @Override
@@ -344,7 +352,8 @@ public class Registration {
             .user("tebex ?gift ?cards?")
             .name("Tebex Gift Card")
             .description("A gift card from your Tebex store.")
-            .examples("send \"%balance of {_giftcard}%\" to player")
+            .since("1.0.0")
+            .examples("send \"%code of {_giftcard}%\" to player")
             .parser(new Parser<GiftCard>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {
@@ -406,6 +415,7 @@ public class Registration {
             .user("tebex ?sales?")
             .name("Tebex Sale")
             .description("A sale running in your Tebex store.")
+            .since("1.0.0")
             .examples("send \"%name of {_sale}%\" to player")
             .parser(new Parser<Sale>() {
                 @Override
@@ -429,7 +439,8 @@ public class Registration {
             .user("tebex ?(goal|community goal)s?")
             .name("Tebex Community Goal")
             .description("A community goal from your Tebex store.")
-            .examples("send \"%name of {_goal}%: %progress of {_goal}%\" to player")
+            .since("1.0.0")
+            .examples("send \"%name of {_goal}%\" to player")
             .parser(new Parser<CommunityGoal>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {
@@ -452,7 +463,8 @@ public class Registration {
             .user("tebex ?stores?")
             .name("Tebex Store")
             .description("Information about your Tebex store.")
-            .examples("send \"%name of tebex store%\" to player")
+            .since("1.0.0")
+            .examples("send \"%tebex store name%\" to player")
             .parser(new Parser<ServerInformation>() {
                 @Override
                 public boolean canParse(@NotNull ParseContext context) {

@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -11,6 +15,10 @@ import com.github.cjh3139.skripttebex.api.model.Package;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Tebex Packages")
+@Description("All packages in the cached Tebex store listing.")
+@Examples("loop tebex packages:\n\tsend \"%name of loop-value%: %price of loop-value%\" to player")
+@Since("1.0.0")
 public class ExprTebexPackages extends SimpleExpression<Package> {
     static {
         Skript.registerExpression(ExprTebexPackages.class, Package.class, ExpressionType.SIMPLE,

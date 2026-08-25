@@ -1,5 +1,9 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import com.github.cjh3139.skripttebex.api.model.Ban;
 import com.github.cjh3139.skripttebex.api.model.Category;
@@ -9,6 +13,10 @@ import com.github.cjh3139.skripttebex.api.model.GiftCard;
 import com.github.cjh3139.skripttebex.api.model.Package;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Tebex ID")
+@Description("The id of a Tebex package, category, coupon, gift card, ban or community goal.")
+@Examples("send \"%id of {_package}%\" to player")
+@Since("1.0.0")
 public class ExprTebexId extends SimplePropertyExpression<Object, Number> {
     static {
         register(ExprTebexId.class, Number.class, "[tebex] id",

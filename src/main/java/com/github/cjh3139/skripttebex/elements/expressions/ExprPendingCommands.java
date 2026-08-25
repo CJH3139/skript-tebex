@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -16,6 +20,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Name("Pending Tebex Commands")
+@Description("The commands that Tebex has queued for a player.")
+@Examples("loop the pending tebex commands of player:\n\tsend \"%loop-value%\" to console")
+@Since("1.0.0")
 public class ExprPendingCommands extends SimpleExpression<QueuedCommand> {
     static {
         Skript.registerExpression(ExprPendingCommands.class, QueuedCommand.class, ExpressionType.SIMPLE,

@@ -2,6 +2,10 @@ package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Variable;
@@ -15,6 +19,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletionException;
 
+@Name("Create Tebex Gift Card")
+@Description(
+    "Creates a gift card with the given balance and stores it in a variable. This effect waits for the Tebex API " +
+    "and therefore delays the script."
+)
+@Examples("create a tebex giftcard worth 10 with note \"Event prize\" and store it in {_card}\nsend \"Your code: %code of {_card}%\" to player")
+@Since("1.0.0")
 public class EffCreateGiftCard extends AsyncEffect {
     static {
         Skript.registerEffect(EffCreateGiftCard.class,

@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.util.AsyncEffect;
@@ -12,6 +16,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletionException;
 
+@Name("Refresh Tebex Listing")
+@Description(
+    "Refreshes the cached Tebex store listing of categories and packages. This effect waits for the Tebex API and " +
+    "therefore delays the script."
+)
+@Examples("refresh the tebex listing")
+@Since("1.0.0")
 public class EffRefreshListing extends AsyncEffect {
     static {
         Skript.registerEffect(EffRefreshListing.class, "refresh [the] tebex listing");

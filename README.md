@@ -68,6 +68,8 @@ command /store:
 
 - **[Syntax reference](docs/syntax.md)** — every event, expression, condition, effect and command.
 - **[Manual verification checklist](docs/manual-verification.md)** — what to check on a live server.
+- **[SkriptHub JSON](docs/skript-tebex.json)**: generated documentation, ready for the JSON import
+  tool of a docs site such as skripthub.net or smdocs.hapily.me.
 
 ## Known limitations
 
@@ -88,6 +90,13 @@ command /store:
 ```
 ./gradlew build      # compile + run the test suite (111 tests)
 ./gradlew shadowJar  # build the addon jar
+```
+
+The syntax documentation lives in the Skript doc annotations on each element. After changing an
+annotation or a pattern, regenerate the JSON:
+
+```
+python tools/generate_skripthub_docs.py
 ```
 
 Tests cover the API clients, the delivery queue's exactly-once semantics, the rate-limit budget,

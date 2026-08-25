@@ -1,6 +1,10 @@
 package com.github.cjh3139.skripttebex.elements.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.util.AsyncEffect;
@@ -13,6 +17,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletionException;
 
+@Name("Force Tebex Queue Check")
+@Description("Polls the Tebex command queue immediately instead of waiting for the next scheduled check.")
+@Examples("on command /tebexcheck:\n\tforce a tebex queue check")
+@Since("1.0.0")
 public class EffForceCheck extends AsyncEffect {
     static {
         Skript.registerEffect(EffForceCheck.class, "force [a] tebex queue check");
